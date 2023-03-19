@@ -8,6 +8,7 @@ export default async function Navbar() {
   const session = await getServerSession(authOptions);
 
   console.log("\n\nUser Sessions is : ", session);
+  console.log("Auth Options are : ", authOptions);
   return (
     <nav className="flex justify-between items-center py-8">
       <Link href={"/"}>
