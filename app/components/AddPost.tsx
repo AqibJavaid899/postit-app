@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 
 import { addPost } from "../axios/postApi";
 
+let toastPostID: string;
+
 const AddPost = () => {
   const [title, setTitle] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -15,13 +17,13 @@ const AddPost = () => {
     mutationFn: (title: string) => addPost({ title }),
 
     onSuccess: (ctx) => {
-      toast.success(ctx?.data?.message);
+      toast.success(ctx?.data?.message, { id: toastPostID });
       setTitle("");
       setIsDisabled(false);
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
-        toast.error(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message, { id: toastPostID });
       }
       setIsDisabled(false);
     },
@@ -29,6 +31,7 @@ const AddPost = () => {
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault();
+    toastPostID = toast.loading("Creating your post", { id: toastPostID });
     setIsDisabled(true);
     createPostMutation.mutate(title);
   };

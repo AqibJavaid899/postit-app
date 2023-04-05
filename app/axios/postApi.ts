@@ -1,3 +1,4 @@
+import { PostsType } from '../types/Posts';
 'use client'
 
 import axios from "axios";
@@ -12,4 +13,9 @@ export const addPost = async (payload: payloadType) => {
         title: payload.title
     }
     return await axios.post("/api/posts", requestBody)
+}
+
+// Fetch all Posts
+export const fetchAllPosts = async (): Promise<PostsType[]> => {
+    return await axios.get("/api/posts")
 }
