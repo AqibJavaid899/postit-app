@@ -1,8 +1,9 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { AxiosError } from "axios";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 import { addPost } from "../axios/postApi";
 
@@ -11,14 +12,24 @@ const AddPost = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const createPostMutation = useMutation({
-    mutationFn: async (title: string) =>
-      await axios.post("/api/posts/addPost", { title }),
+    mutationFn: (title: string) => addPost({ title }),
+
+    onSuccess: (ctx) => {
+      toast.success(ctx?.data?.message);
+      setTitle("");
+      setIsDisabled(false);
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data?.message);
+      }
+      setIsDisabled(false);
+    },
   });
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault();
-    // setIsDisabled(true);
-    // console.log("Title is : ", title);
+    setIsDisabled(true);
     createPostMutation.mutate(title);
   };
 
@@ -40,7 +51,7 @@ const AddPost = () => {
           >{`${title?.length} / 300`}</span>
           <button
             type="submit"
-            disabled={isDisabled || title.length > 300}
+            disabled={isDisabled}
             className="text-sm px-5 py-2 bg-teal-600 text-white rounded-xl disabled:opacity-30 disabled:cursor-not-allowed"
           >
             Create a Post
