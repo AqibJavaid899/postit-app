@@ -1,3 +1,11 @@
+"use client";
+
+import AddPost from "./components/AddPost";
+
 export default function Home() {
-  return <main>Hello Next</main>;
+  return (
+    <main>
+      <AddPost />
+    </main>
+  );
 }

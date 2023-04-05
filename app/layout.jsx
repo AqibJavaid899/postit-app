@@ -1,6 +1,7 @@
-import { Roboto } from "next/font/google";
+import { Roboto } from "@next/font/google";
 
 import Navbar from "./auth/Navbar";
+import QueryWrapper from "./global/QueryWrapper";
 
 import "./globals.css";
 
@@ -19,8 +20,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`mx-4 md:mx-48 xl:md-96 ${roboto.variable} bg-gray-200`}>
-        <Navbar />
-        {children}
+        <QueryWrapper>
+          <Navbar />
+          {children}
+        </QueryWrapper>
       </body>
     </html>
   );
