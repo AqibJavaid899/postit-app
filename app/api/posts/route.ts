@@ -49,3 +49,17 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+
+export async function GET(req: NextRequest) {
+  try {
+    const data = await prisma.post.findMany({
+      include: {
+        user: true
+      }
+    })
+    return new Response(JSON.stringify(data))
+  } catch (error) {
+    return new Response(JSON.stringify({message: "Error has occured whilst fetching the posts."}))
+  }
+}
