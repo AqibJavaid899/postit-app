@@ -19,11 +19,19 @@ export default function Home() {
 
   if (error) return error;
   if (isLoading) return "Loading...";
-
+  console.log("Posts are : ", posts);
   return (
     <main>
       <AddPost />
-      <Posts posts={posts?.data} />
+      {posts?.data?.map((post: PostsType) => (
+        <Posts
+          key={post.id}
+          postId={post.id}
+          postTitle={post.title}
+          userName={post.user.name}
+          userAvatar={post.user.image}
+        />
+      ))}
     </main>
   );
 }
