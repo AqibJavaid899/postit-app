@@ -55,7 +55,10 @@ export async function GET(req: NextRequest) {
   try {
     const data = await prisma.post.findMany({
       include: {
-        user: true
+        user: true,
+      },
+      orderBy: {
+        createdAt: "desc"
       }
     })
     return new Response(JSON.stringify(data))
